@@ -17,7 +17,7 @@ int main() {
         return 1;
     }
 
-    int total  = 0;
+    int total = 0;
     int passed = 0;
 
     log(logFile, "--- SelfOrganizingList test report ---");
@@ -118,7 +118,7 @@ int main() {
         log(logFile, "After remove: " + list.toString());
 
         std::string result = list.toString();
-        bool removed     = result.find("Gangnam Style") == std::string::npos;
+        bool removed = result.find("Gangnam Style") == std::string::npos;
         bool correctSize = result.find("size=1") != std::string::npos;
 
         if (removed && correctSize) {
@@ -143,8 +143,8 @@ int main() {
         log(logFile, "After update: " + list.toString());
 
         std::string result = list.toString();
-        bool updated   = result.find("Gangnam Style (Remix)") != std::string::npos;
-        bool sameSize  = result.find("size=1") != std::string::npos;
+        bool updated = result.find("Gangnam Style (Remix)") != std::string::npos;
+        bool sameSize = result.find("size=1") != std::string::npos;
 
         if (updated && sameSize) {
             log(logFile, "[TEST 6] PASSED: operator*= updates element");
