@@ -4,7 +4,7 @@
 int main() {
     std::cout << "--- SelfOrganizingList Demo ---" << std::endl << std::endl;
 
-    sol::SelfOrganizingList<std::string> list;
+    Sol::SelfOrganizingList<std::string> list;
 
     std::cout << "[1] Adding songs" << std::endl;
     list += "Smells Like Teen Spirit";
@@ -27,11 +27,19 @@ int main() {
     std::cout << "After remove: " << list.toString() << std::endl;
 
     std::cout << "\n[5] Copy constructor" << std::endl;
-    sol::SelfOrganizingList<std::string> list2 = list;
+    Sol::SelfOrganizingList<std::string> list2 = list;
     std::cout << "Original: " << list.toString() << std::endl;
     std::cout << "Copy:     " << list2.toString() << std::endl;
 
-    std::cout << "\n[6] Comparison operators" << std::endl;
+    std::cout << "\n[6] Read operations" << std::endl;
+    std::cout << "List size: " << list.size() << std::endl;
+    std::cout << "Element at index 0: " << list.at(0) << std::endl;
+    std::cout << "All elements one by one:" << std::endl;
+    for (int i = 0; i < list.size(); i++) {
+        std::cout << "Element " << i << ": " << list.at(i) << std::endl;
+    }
+
+    std::cout << "\n[7] Comparison operators" << std::endl;
     std::cout << std::boolalpha;
     std::cout << "list == list2: " << (list == list2) << std::endl;
     std::cout << "list != list2: " << (list != list2) << std::endl;
@@ -40,14 +48,14 @@ int main() {
     std::cout << "list >  list2: " << (list > list2) << std::endl;
     std::cout << "list >= list2: " << (list >= list2) << std::endl;
 
-    std::cout << "\n[7] Duplicate element exception" << std::endl;
+    std::cout << "\n[8] Duplicate element exception" << std::endl;
     try {
         list += "Smells Like Teen Spirit";
-    } catch (const sol::DuplicateElementException& e) {
+    } catch (const Sol::DuplicateElementException& e) {
         std::cout << "Caught exception: " << e.what() << std::endl;
     }
 
-    std::cout << "\n[8] Clearing the list" << std::endl;
+    std::cout << "\n[9] Clearing the list" << std::endl;
     !list;
     std::cout << "After clear: " << list.toString() << std::endl;
 

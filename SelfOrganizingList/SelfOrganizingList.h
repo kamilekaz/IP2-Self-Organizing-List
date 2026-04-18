@@ -5,13 +5,12 @@
 #include <utility>
 #include <stdexcept>
 
-namespace sol {
+namespace Sol {
 
     // custom exception for duplicate insert attempts
     class DuplicateElementException : public std::invalid_argument {
     public:
-        explicit DuplicateElementException(const std::string& msg)
-            : std::invalid_argument(msg) {}
+        explicit DuplicateElementException(const std::string& msg);
     };
 
     template <typename T>
@@ -51,7 +50,13 @@ namespace sol {
         // pair.first = old value, pair.second = new value
         SelfOrganizingList& operator*=(const std::pair<T,T>& values);
 
-        // comparison operators are based on list size
+        // returns number of elements
+        int size() const;
+
+        // returns element at given position
+        const T& at(int index) const;
+
+        // comparison operators
         bool operator==(const SelfOrganizingList& other) const;
         bool operator!=(const SelfOrganizingList& other) const;
         bool operator<(const SelfOrganizingList& other) const;

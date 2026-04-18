@@ -2,25 +2,33 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace sol {
+namespace Sol
+{
+
+    DuplicateElementException::DuplicateElementException(const std::string &msg)
+        : std::invalid_argument(msg) {}
 
     template <typename T>
-    struct SelfOrganizingList<T>::Impl {
+    struct SelfOrganizingList<T>::Impl
+    {
 
-        struct Node {
+        struct Node
+        {
             T data;
-            Node* next;
-            Node(const T& data) : data(data), next(nullptr) {}
+            Node *next;
+            Node(const T &data) : data(data), next(nullptr) {}
         };
 
-        Node* head = nullptr;
+        Node *head = nullptr;
         int size = 0;
 
         // removes all nodes from the list
-        void clear() {
-            Node* curr = head;
-            while (curr != nullptr) {
-                Node* nxt = curr->next;
+        void clear()
+        {
+            Node *curr = head;
+            while (curr != nullptr)
+            {
+                Node *nxt = curr->next;
                 delete curr;
                 curr = nxt;
             }
@@ -29,16 +37,21 @@ namespace sol {
         }
 
         // deep copy from another list
-        void copyFrom(const Impl& other) {
-            Node* curr = other.head;
-            Node* tail = nullptr;
+        void copyFrom(const Impl &other)
+        {
+            Node *curr = other.head;
+            Node *tail = nullptr;
 
-            while (curr != nullptr) {
-                Node* newNode = new Node(curr->data);
+            while (curr != nullptr)
+            {
+                Node *newNode = new Node(curr->data);
 
-                if (tail == nullptr) {
+                if (tail == nullptr)
+                {
                     head = newNode;
-                } else {
+                }
+                else
+                {
                     tail->next = newNode;
                 }
 
@@ -51,25 +64,30 @@ namespace sol {
     };
 
     template <typename T>
-    SelfOrganizingList<T>::SelfOrganizingList() {
+    SelfOrganizingList<T>::SelfOrganizingList()
+    {
         pImpl = new Impl();
     }
 
     template <typename T>
-    SelfOrganizingList<T>::~SelfOrganizingList() {
+    SelfOrganizingList<T>::~SelfOrganizingList()
+    {
         pImpl->clear();
         delete pImpl;
     }
 
     template <typename T>
-    SelfOrganizingList<T>::SelfOrganizingList(const SelfOrganizingList& other) {
+    SelfOrganizingList<T>::SelfOrganizingList(const SelfOrganizingList &other)
+    {
         pImpl = new Impl();
         pImpl->copyFrom(*other.pImpl);
     }
 
     template <typename T>
-    SelfOrganizingList<T>& SelfOrganizingList<T>::operator=(const SelfOrganizingList& other) {
-        if (this != &other) {
+    SelfOrganizingList<T> &SelfOrganizingList<T>::operator=(const SelfOrganizingList &other)
+    {
+        if (this != &other)
+        {
             pImpl->clear();
             pImpl->copyFrom(*other.pImpl);
         }
@@ -77,17 +95,20 @@ namespace sol {
     }
 
     template <typename T>
-    SelfOrganizingList<T>& SelfOrganizingList<T>::operator+=(const T& value) {
-        typename Impl::Node* curr = pImpl->head;
+    SelfOrganizingList<T> &SelfOrganizingList<T>::operator+=(const T &value)
+    {
+        typename Impl::Node *curr = pImpl->head;
 
-        while (curr != nullptr) {
-            if (curr->data == value) {
+        while (curr != nullptr)
+        {
+            if (curr->data == value)
+            {
                 throw DuplicateElementException("Element already exists");
             }
             curr = curr->next;
         }
 
-        typename Impl::Node* newNode = new typename Impl::Node(value);
+        typename Impl::Node *newNode = new typename Impl::Node(value);
         newNode->next = pImpl->head;
         pImpl->head = newNode;
         pImpl->size++;
@@ -95,15 +116,21 @@ namespace sol {
     }
 
     template <typename T>
-    SelfOrganizingList<T>& SelfOrganizingList<T>::operator-=(const T& value) {
-        typename Impl::Node* prv = nullptr;
-        typename Impl::Node* curr = pImpl->head;
+    SelfOrganizingList<T> &SelfOrganizingList<T>::operator-=(const T &value)
+    {
+        typename Impl::Node *prv = nullptr;
+        typename Impl::Node *curr = pImpl->head;
 
-        while (curr != nullptr) {
-            if (curr->data == value) {
-                if (prv == nullptr) {
+        while (curr != nullptr)
+        {
+            if (curr->data == value)
+            {
+                if (prv == nullptr)
+                {
                     pImpl->head = curr->next;
-                } else {
+                }
+                else
+                {
                     prv->next = curr->next;
                 }
 
@@ -120,18 +147,16 @@ namespace sol {
     }
 
     template <typename T>
-    int SelfOrganizingList<T>::operator[](const T& value) {
-        typename Impl::Node* prv = nullptr;
-        typename Impl::Node* curr = pImpl->head;
+    int SelfOrganizingList<T>::operator[](const T &value)
+    {
+        typename Impl::Node *prv = nullptr;
+        typename Impl::Node *curr = pImpl->head;
         int pos = 0;
 
-        while (curr != nullptr) {
-            if (curr->data == value) {
-                if (prv != nullptr) {
-                    prv->next = curr->next;
-                    curr->next = pImpl->head;
-                    pImpl->head = curr;
-                }
+        while (curr != nullptr)
+        {
+            if (curr->data == value)
+            {
                 return pos;
             }
 
@@ -144,17 +169,21 @@ namespace sol {
     }
 
     template <typename T>
-    SelfOrganizingList<T>& SelfOrganizingList<T>::operator!() {
+    SelfOrganizingList<T> &SelfOrganizingList<T>::operator!()
+    {
         pImpl->clear();
         return *this;
     }
 
     template <typename T>
-    SelfOrganizingList<T>& SelfOrganizingList<T>::operator*=(const std::pair<T,T>& values) {
-        typename Impl::Node* curr = pImpl->head;
+    SelfOrganizingList<T> &SelfOrganizingList<T>::operator*=(const std::pair<T, T> &values)
+    {
+        typename Impl::Node *curr = pImpl->head;
 
-        while (curr != nullptr) {
-            if (curr->data == values.first) {
+        while (curr != nullptr)
+        {
+            if (curr->data == values.first)
+            {
                 curr->data = values.second;
                 return *this;
             }
@@ -164,46 +193,119 @@ namespace sol {
         throw std::invalid_argument("Element not found");
     }
 
-    // comparison operators (based on list size)
     template <typename T>
-    bool SelfOrganizingList<T>::operator==(const SelfOrganizingList& other) const {
-        return pImpl->size == other.pImpl->size;
+    int SelfOrganizingList<T>::size() const
+    {
+        return pImpl->size;
     }
 
     template <typename T>
-    bool SelfOrganizingList<T>::operator<(const SelfOrganizingList& other) const {
-        return pImpl->size < other.pImpl->size;
+    const T &SelfOrganizingList<T>::at(int index) const
+    {
+        if (index < 0 || index >= pImpl->size)
+        {
+            throw std::out_of_range("Index out of range");
+        }
+
+        typename Impl::Node *curr = pImpl->head;
+        int currentIndex = 0;
+
+        while (curr != nullptr)
+        {
+            if (currentIndex == index)
+            {
+                return curr->data;
+            }
+            curr = curr->next;
+            currentIndex++;
+        }
+
+        throw std::out_of_range("Index out of range");
     }
 
     template <typename T>
-    bool SelfOrganizingList<T>::operator!=(const SelfOrganizingList& other) const {
-        return *this < other || other < *this;
+    bool SelfOrganizingList<T>::operator==(const SelfOrganizingList &other) const
+    {
+        if (pImpl->size != other.pImpl->size)
+        {
+            return false;
+        }
+
+        typename Impl::Node *curr1 = pImpl->head;
+        typename Impl::Node *curr2 = other.pImpl->head;
+
+        while (curr1 != nullptr && curr2 != nullptr)
+        {
+            if (!(curr1->data == curr2->data))
+            {
+                return false;
+            }
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+        }
+
+        return curr1 == nullptr && curr2 == nullptr;
     }
 
     template <typename T>
-    bool SelfOrganizingList<T>::operator<=(const SelfOrganizingList& other) const {
+    bool SelfOrganizingList<T>::operator!=(const SelfOrganizingList &other) const
+    {
+        return !(*this == other);
+    }
+
+    template <typename T>
+    bool SelfOrganizingList<T>::operator<(const SelfOrganizingList &other) const
+    {
+        typename Impl::Node *curr1 = pImpl->head;
+        typename Impl::Node *curr2 = other.pImpl->head;
+
+        while (curr1 != nullptr && curr2 != nullptr)
+        {
+            if (curr1->data < curr2->data)
+            {
+                return true;
+            }
+            if (curr2->data < curr1->data)
+            {
+                return false;
+            }
+            curr1 = curr1->next;
+            curr2 = curr2->next;
+        }
+
+        return curr1 == nullptr && curr2 != nullptr;
+    }
+
+    template <typename T>
+    bool SelfOrganizingList<T>::operator<=(const SelfOrganizingList &other) const
+    {
         return *this < other || *this == other;
     }
 
     template <typename T>
-    bool SelfOrganizingList<T>::operator>(const SelfOrganizingList& other) const {
+    bool SelfOrganizingList<T>::operator>(const SelfOrganizingList &other) const
+    {
         return other < *this;
     }
 
     template <typename T>
-    bool SelfOrganizingList<T>::operator>=(const SelfOrganizingList& other) const {
+    bool SelfOrganizingList<T>::operator>=(const SelfOrganizingList &other) const
+    {
         return other < *this || *this == other;
     }
 
     template <typename T>
-    std::string SelfOrganizingList<T>::toString() const {
+    std::string SelfOrganizingList<T>::toString() const
+    {
         std::stringstream ss;
         ss << "SelfOrganizingList [size=" << pImpl->size << "]: ";
 
-        typename Impl::Node* curr = pImpl->head;
-        while (curr != nullptr) {
+        typename Impl::Node *curr = pImpl->head;
+        while (curr != nullptr)
+        {
             ss << curr->data;
-            if (curr->next != nullptr) ss << " -> ";
+            if (curr->next != nullptr)
+                ss << " -> ";
             curr = curr->next;
         }
 

@@ -3,7 +3,7 @@
 #include <string>
 #include "SelfOrganizingList.h"
 
-using namespace sol;
+using namespace Sol;
 
 void log(std::ofstream& file, const std::string& text) {
     std::cout << text << std::endl;
@@ -169,6 +169,8 @@ int main() {
 
         log(logFile, "List a: " + a.toString());
         log(logFile, "List b: " + b.toString());
+        log(logFile, "List a size: " + std::to_string(a.size()));
+        log(logFile, "List b element at index 0: " + std::to_string(b.at(0)));
 
         if ((a != b) && (a < b) && (b > a)) {
             log(logFile, "[TEST 7] PASSED: comparison operators work");
