@@ -1,0 +1,66 @@
+--- SelfOrganizingList test report ---
+Checking main operations and some error cases
+--------------------------------------
+
+After insert: SelfOrganizingList [size=3]: Blinding Lights -> Gangnam Style -> Smells Like Teen Spirit
+[TEST 1] PASSED: operator+= works with strings
+
+Before duplicate insert: SelfOrganizingList [size=1]: Gangnam Style
+[TEST 2] PASSED: duplicate insert throws custom exception
+
+Before search: SelfOrganizingList [size=3]: Blinding Lights -> Gangnam Style -> Smells Like Teen Spirit
+After search: SelfOrganizingList [size=3]: Smells Like Teen Spirit -> Blinding Lights -> Gangnam Style
+[TEST 3] PASSED: operator[] finds element and applies Move-to-Front
+
+Current list: SelfOrganizingList [size=1]: Blinding Lights
+[TEST 4] PASSED: missing element search throws exception
+
+Before remove: SelfOrganizingList [size=2]: Gangnam Style -> Smells Like Teen Spirit
+After remove: SelfOrganizingList [size=1]: Smells Like Teen Spirit
+[TEST 5] PASSED: operator-= removes element
+
+Before update: SelfOrganizingList [size=1]: Gangnam Style
+After update: SelfOrganizingList [size=1]: Gangnam Style (Remix)
+[TEST 6] PASSED: operator*= updates element
+
+List a: SelfOrganizingList [size=1]: 1
+List b: SelfOrganizingList [size=2]: 2 -> 1
+List a size: 1
+List b element at index 0: 2
+[TEST 7] PASSED: comparison operators work
+
+Before clear: SelfOrganizingList [size=2]: B -> A
+After clear: SelfOrganizingList [size=0]: 
+[TEST 8] PASSED: operator! clears the list
+
+Original before copy: SelfOrganizingList [size=2]: Song B -> Song A
+Copy after constructor: SelfOrganizingList [size=2]: Song B -> Song A
+[TEST 9] PASSED: copy constructor works
+
+Before assignment, list1: SelfOrganizingList [size=2]: Song B -> Song A
+Before assignment, list2: SelfOrganizingList [size=1]: Temporary
+After assignment, list2: SelfOrganizingList [size=2]: Song B -> Song A
+[TEST 10] PASSED: assignment operator works
+
+Int list before search: SelfOrganizingList [size=3]: 30 -> 20 -> 10
+Int list after search: SelfOrganizingList [size=3]: 20 -> 30 -> 10
+[TEST 11] PASSED: template works with int type
+
+Empty list state: SelfOrganizingList [size=0]: 
+[TEST 12] PASSED: empty list search throws exception
+
+--------------------------------------
+Extra sequence test:
+
+Initial sequence: SelfOrganizingList [size=3]: Song 3 -> Song 2 -> Song 1
+After searching Song 1: SelfOrganizingList [size=3]: Song 1 -> Song 3 -> Song 2
+After update: SelfOrganizingList [size=3]: Song 1 (Edited) -> Song 3 -> Song 2
+After removing Song 2: SelfOrganizingList [size=2]: Song 1 (Edited) -> Song 3
+
+--------------------------------------
+Final results:
+Total tests: 12
+Passed: 12
+Failed: 0
+--------------------------------------
+
